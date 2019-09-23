@@ -1,36 +1,33 @@
 <template>
-  <v-app>
-    <v-app-bar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        text
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
-    </v-app-bar>
+    <v-app>
+        <v-app-bar app>
+            <v-toolbar-title class="headline text-uppercase">
+                <span>Web-Utils</span>
+            </v-toolbar-title>
+        </v-app-bar>
 
-    <v-content>
-      <HelloWorld/>
-    </v-content>
-  </v-app>
+        <v-content>
+            <ConvertBase64/>
+            <DownloadBase64/>
+            <LoadImages/>
+        </v-content>
+    </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+    import ConvertBase64 from "./components/ConvertBase64";
+    import DownloadBase64 from "./components/DownloadBase64";
+    import LoadImages from "./components/LoadImages";
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld,
-  },
-  data: () => ({
-    //
-  }),
-};
+    export default {
+        name: 'App',
+        components: {
+            ConvertBase64,
+            DownloadBase64,
+            LoadImages
+        },
+        data: () => ({
+            //
+        }),
+    };
 </script>
