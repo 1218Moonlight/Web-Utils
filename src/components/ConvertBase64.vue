@@ -1,6 +1,6 @@
 <template>
     <v-container id="container">
-        <v-flex >
+        <v-flex>
             <v-label>Image -> Base64</v-label>
             <v-file-input accept="image/*" @change="changeImg" prepend-icon="mdi-camera"
                           small-chips show-size filled></v-file-input>
@@ -13,7 +13,9 @@
                         full-width
                         outlined
                 ></v-textarea>
-                <v-btn @click="copyBase64">Copy</v-btn>
+                <v-btn @click="copyBase64all">Copy(all)</v-btn>
+                <v-btn @click="copyBase64contentType">Copy(only content Type)</v-btn>
+                <v-btn @click="copyBase64">Copy(only base64)</v-btn>
             </template>
         </v-flex>
     </v-container>
@@ -47,10 +49,26 @@
                     reader.readAsDataURL(e);
                 }
             },
-            copyBase64(){
+            copyBase64all() {
                 let t = document.createElement("textarea");
                 document.body.appendChild(t);
                 t.value = this.targetImg.src;
+                t.select();
+                document.execCommand('copy');
+                document.body.removeChild(t);
+            },
+            copyBase64contentType() {
+                let t = document.createElement("textarea");
+                document.body.appendChild(t);
+                t.value = this.targetImg.src.split(",")[0];
+                t.select();
+                document.execCommand('copy');
+                document.body.removeChild(t);
+            },
+            copyBase64() {
+                let t = document.createElement("textarea");
+                document.body.appendChild(t);
+                t.value = this.targetImg.src.split(",")[1];
                 t.select();
                 document.execCommand('copy');
                 document.body.removeChild(t);
