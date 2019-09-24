@@ -5,7 +5,7 @@
 
             <v-textarea
                     @change="change"
-                    label="Base64"
+                    label="Only Base64"
                     full-width
                     outlined
             ></v-textarea>
