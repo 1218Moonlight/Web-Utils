@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import jpeg from '../plugins/jpeg'
+    import jpeg from '../plugins/jpeg/jpeg'
 
     export default {
         name: "ImageHeaderViewer",
