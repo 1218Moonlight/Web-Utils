@@ -97,10 +97,10 @@ export default class jpeg_utils extends jpeg_init {
     }
 
     protected getHuffmanCodedData() {
-        this.nextBufferView()
+        this.offsetLog("huffman code data", this.headerSlice(this.nextTargetMarker()))
     }
 
-    protected nextBufferView() {
+    protected nextTargetMarker(): number {
         this.fake_offset = this.offset;
         let hexKeep = [];
         while (true) {
@@ -110,32 +110,23 @@ export default class jpeg_utils extends jpeg_init {
                 hexKeep.pop();
                 this.fake_marker = `${hexKeep[0]}${hexKeep[1]}`;
                 if (this.fake_markerCheck("SOI")) {
-                    console.log(hexKeep);
-                    // Always FFD8 (first 2byte)
                     break
                 } else if (this.fake_markerCheck("APP0") || this.fake_markerCheck("APP1")) {
-                    console.log(hexKeep);
                     break
                 } else if (this.fake_markerCheck("SOF0") || this.fake_markerCheck("SOF1") || this.fake_markerCheck("SOF2")) {
-                    console.log(hexKeep);
                     break
                 } else if (this.fake_markerCheck("DHT")) {
-                    console.log(hexKeep, this.fake_offset);
-                    console.log(this.headerSlice(this.fake_offset - this.offset));
                     break
                 } else if (this.fake_markerCheck("DQT")) {
-                    console.log(hexKeep);
                     break
                 } else if (this.fake_markerCheck("SOS")) {
-                    console.log(hexKeep);
                     break
                 } else if (this.fake_markerCheck("EOI")) {
-                    console.log(hexKeep);
                     break
                 }
-
             }
             hexKeep.push(this.headerView(1));
         }
+        return this.fake_offset - this.offset - 2;
     }
 }

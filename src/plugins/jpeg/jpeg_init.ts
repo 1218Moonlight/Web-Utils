@@ -5,6 +5,7 @@ export default class jpeg_nit {
     protected fake_offset: number;
     protected marker: string;
     protected fake_marker: string;
+    protected actual_content_size: number;
     protected markerStr2Hex: Map<string, string>;
     protected markerHex2Str: Map<string, string>;
 
