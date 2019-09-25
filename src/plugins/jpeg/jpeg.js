@@ -15,6 +15,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var hex_1 = require("../utils/hex");
 var jpeg_utils_1 = require("./jpeg_utils");
+// Todo: Header 정보 Html에 표기. Header情報をHTMLに表示
 var JPEG = /** @class */ (function (_super) {
     __extends(JPEG, _super);
     function JPEG() {

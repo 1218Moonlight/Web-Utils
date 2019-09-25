@@ -1,6 +1,8 @@
 import {toHexString, hex2dec} from "../utils/hex"
 import jpeg_fun from './jpeg_utils'
 
+// Todo: Header 정보 Html에 표기. Header情報をHTMLに表示
+
 export default class JPEG extends jpeg_fun {
     public header() {
         console.log("=== [ Image Headers ] ===");
