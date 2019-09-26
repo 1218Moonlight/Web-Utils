@@ -46,6 +46,9 @@ var jpeg_utils = /** @class */ (function (_super) {
     jpeg_utils.prototype.fake_markerCheck = function (target) {
         return this.fake_marker === this.markerStr2Hex.get(target);
     };
+    jpeg_utils.prototype.checkFF00 = function (target) {
+        return target === "FF00";
+    };
     jpeg_utils.prototype.getMarker = function () {
         var marker = this.headerSlice(2);
         console.log("=== [ " + this.markerHex2Str.get(marker) + " ] ===");
@@ -136,6 +139,24 @@ var jpeg_utils = /** @class */ (function (_super) {
             hexKeep.push(this.headerView(1));
         }
         return this.fake_offset - this.offset - 2;
+    };
+    jpeg_utils.prototype.hex2bin = function (hexString) {
+        var check2hex = [];
+        var binalry = [];
+        var count = 0;
+        while (true) {
+            if (check2hex.length === 2) {
+                var target = "" + check2hex[0] + check2hex[1];
+                binalry.push(hex_1.hex2bin(target));
+                check2hex = [];
+            }
+            else if (count > hexString.length) {
+                break;
+            }
+            check2hex.push(hexString[count]);
+            count++;
+        }
+        return binalry;
     };
     return jpeg_utils;
 }(jpeg_init_1.default));

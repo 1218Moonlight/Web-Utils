@@ -1,5 +1,5 @@
 import jpeg_init from "./jpeg_init";
-import {hex2dec, toHexString} from "../utils/hex";
+import {hex2bin, hex2dec, toHexString} from "../utils/hex";
 
 export default class jpeg_utils extends jpeg_init {
     protected offsetLog(tag: string, hexMsg: string, info: string = "") {
@@ -21,7 +21,7 @@ export default class jpeg_utils extends jpeg_init {
     }
 
     protected headerView(endOffset: number): string {
-        let v = toHexString(this.buffer.slice(this.fake_offset, this.fake_offset + endOffset))
+        let v = toHexString(this.buffer.slice(this.fake_offset, this.fake_offset + endOffset));
         this.fake_offset += endOffset;
         return v
     }
@@ -32,6 +32,10 @@ export default class jpeg_utils extends jpeg_init {
 
     protected fake_markerCheck(target: string): boolean {
         return this.fake_marker === this.markerStr2Hex.get(target)
+    }
+
+    protected checkFF00(target: string) {
+        return target === "FF00"
     }
 
     protected getMarker(): string {
@@ -128,5 +132,23 @@ export default class jpeg_utils extends jpeg_init {
             hexKeep.push(this.headerView(1));
         }
         return this.fake_offset - this.offset - 2;
+    }
+
+    protected hex2bin(hexString: string): Array<string> {
+        let check2hex: Array<string> = [];
+        let binalry: Array<string> = [];
+        let count: number = 0;
+        while (true) {
+            if (check2hex.length === 2) {
+                let target = `${check2hex[0]}${check2hex[1]}`;
+                binalry.push(hex2bin(target));
+                check2hex = []
+            } else if (count > hexString.length) {
+                break
+            }
+            check2hex.push(hexString[count]);
+            count++
+        }
+        return binalry
     }
 }

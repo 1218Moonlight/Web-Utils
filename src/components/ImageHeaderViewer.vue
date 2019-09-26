@@ -33,7 +33,9 @@
         methods: {
             change(e) {
                 const j = new jpeg(e);
-                j.header()
+                // j.header()
+                j.Decode()
+
             },
         },
     }

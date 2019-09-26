@@ -52,6 +52,48 @@ var JPEG = /** @class */ (function (_super) {
             }
         }
     };
+    JPEG.prototype.Decode = function () {
+        var imageData = this.imageData();
+        this.VLD(imageData);
+    };
+    JPEG.prototype.imageData = function () {
+        console.log("=== [ Image Data ] ===");
+        this.fake_offset = this.offset;
+        var hexKeep = [];
+        var imageData = "";
+        while (true) {
+            if (hexKeep.length === 3) {
+                hexKeep[0] = hexKeep[1];
+                hexKeep[1] = hexKeep[2];
+                hexKeep.pop();
+                this.fake_marker = "" + hexKeep[0] + hexKeep[1];
+                if (this.fake_markerCheck("SOS")) {
+                    // console.log(toHexString(this.buffer.slice(this.fake_offset-2, this.fileSize)));
+                    console.log("segment: ", hex_1.toHexString(this.buffer.slice(this.fake_offset - 2, this.fileSize - 2)));
+                    // FFDA 이후 12byte, FFDA以降の12byte
+                    console.log("additional data : ", hex_1.toHexString(this.buffer.slice(this.fake_offset, this.fake_offset + 12)));
+                    // VLD를 할 실제 데이터, VLDをする実際のデータ
+                    imageData = hex_1.toHexString(this.buffer.slice(this.fake_offset + 12, this.fileSize - 2));
+                    console.log("Image Data : ", hex_1.toHexString(this.buffer.slice(this.fake_offset + 12, this.fileSize - 2)));
+                    break;
+                }
+            }
+            else if (this.fileSize < this.fake_offset) {
+                console.log("[ ERROR ]", "marker doesn't match. [value]", this.fake_marker);
+                break;
+            }
+            hexKeep.push(this.headerView(1));
+        }
+        // FF는 JPEG에서 마커로 사용. 하지만 뒤에 00이 붙으면 마커가 아님을 표시.
+        // FFはJPEGでMarkerとして使用。でもその次に00が付いたらMarkerではない！
+        return imageData.replace("FF00", "FF");
+    };
+    JPEG.prototype.VLD = function (imageData) {
+        // console.log(imageData);
+        // console.log(hex2bin("FC"));
+        var imageDataBinaryArray = this.hex2bin(imageData);
+        console.log(imageDataBinaryArray); // todo: Huffman table...
+    };
     JPEG.prototype.APPn = function () {
         this.segmentDataLength();
         this.JFIF();
